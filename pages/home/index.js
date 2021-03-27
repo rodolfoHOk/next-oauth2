@@ -15,7 +15,7 @@ const Home = () => {
     respostaTodos: ''
   });
 
-  async function handleLogout(){
+  function handleLogout(){
     Logout();
     router.push('/login');
   }

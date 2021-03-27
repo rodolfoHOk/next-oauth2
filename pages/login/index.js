@@ -1,22 +1,22 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../src/context/auth";
 
 const Login = () => {
-  const { signed, Login } = useAuth();
+  const { Login } = useAuth();
   const router = useRouter();
   const [ usuario, setUsuario ] = useState('');
   const [ senha, setSenha ] = useState('');
-
-  useEffect(() => {
-    if(signed){
-      router.push('/home');
-    }
-  });
+  const [ mensagem, setMensagem ] = useState('');
 
   async function handleLogin(event) {
     event.preventDefault();
-    Login(usuario, senha);
+    Login(usuario, senha).then(response => {
+      setMensagem('Logado com sucesso');
+      router.push('/home');
+    }).catch(error => {
+      setMensagem('Nome de usuário ou senha incorreta(o)!');
+    });
   }
 
   return(
@@ -39,6 +39,7 @@ const Login = () => {
           <div>
             <input type="submit" value="Logar" />
           </div>
+          <p>{mensagem}</p>
         </form>
       </div>
     </div>

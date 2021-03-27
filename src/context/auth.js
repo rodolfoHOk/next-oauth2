@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
         httpApiClient.defaults.headers.Authorization = `Bearer ${response.data.access_token}`;
       }).catch(
         error => {
-          console.log(error);
+          throw error;
       });
   }
   
