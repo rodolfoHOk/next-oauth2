@@ -64,7 +64,7 @@ const Home = () => {
       <div>
         <h1>Acesso negado</h1>
         <Link href="/login">
-          <a>ir para a tela de login</a>
+          <a href="#">ir para a tela de login</a>
         </Link>
       </div>
     );
