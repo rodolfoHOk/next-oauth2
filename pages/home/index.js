@@ -15,6 +15,8 @@ const Home = () => {
     respostaTodos: ''
   });
 
+  const isAdmin = roles.includes('administrador');
+
   function handleLogout(){
     Logout();
     router.push('/login');
@@ -97,6 +99,15 @@ const Home = () => {
           <span>{respostas.respostaTodos}</span>
         </div>
       </div>
+      { isAdmin &&
+        <>
+          <br /> 
+          <Link href="/usuarios/buscar"><a>Pesquisa de usuários</a></Link>
+          <br />
+          <br />
+          <Link href="/usuarios/cadastrar"><a>Cadastrar usuário</a></Link>
+        </>
+      }
     </div>
   );
 }
