@@ -3,9 +3,11 @@ import { useAuth } from "../context/auth"
 
 export default function withAuth(Component) {
   const Auth = (props) => {
-    const { signed } = useAuth();
+    const { signed, roles } = useAuth();
+    const isAdmin = roles.includes('administrador');
+
     if (signed) {
-      return <Component {...props} />
+      return <Component isAdmin={isAdmin} {...props} />
     } else {
       return <Login/>
     }

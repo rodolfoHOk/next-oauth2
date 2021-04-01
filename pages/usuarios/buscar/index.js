@@ -1,15 +1,11 @@
 import { useState } from 'react';
-import { useAuth } from '../../../src/context/auth';
 import { getTodosUsuarios,
   getUsuarioPorId,
   getUsuariosPorUsername,
   postAtribuirRole } from '../../api/apiUsuarioService';
-import NaoAutorizado from '../../naoAutorizado';
-import withAuth from '../../../src/utils/withAuth';
+import withAuthAdmin from '../../../src/utils/withAuthAdmin';
  
 const BuscarUsuario = () => {
-  const { roles } = useAuth();
-  const isAdmin = roles.includes('administrador');
   
   const [ username, setUsername ] = useState('');
   const [ id, setId ] = useState('');
@@ -79,69 +75,63 @@ const BuscarUsuario = () => {
   }
 
   return (
-    <> { isAdmin
-        ?
+    <div>
+      <h1>Pesquisar Usuários</h1>
+      <form onSubmit={(event) => buscar(event)}>
         <div>
-          <h1>Pesquisar Usuários</h1>
-          <form onSubmit={(event) => buscar(event)}>
-            <div>
-              <label>por Nome de Usuário</label>
-              <br />
-              <input type="text" id="inputNome" placeholder="Digite o nome de usuário"
-                value={username} onChange={(event) => setUsername(event.target.value)} />
-            </div>
-            <br />
-            <div>
-              <label>por ID de Usuário</label>
-              <br />
-              <input type="text" id="inputId" placeholder="Digite o id do usuário"
-                value={id} onChange={(event) => setId(event.target.value)} />
-            </div>
-            <br />
-            <div>
-              <button type="submit">Pesquisar</button>
-              <p>{mensagem}</p>
-            </div>
-          </form>
-          { mostrarTabela &&
-            <div>
-              <br/>
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome de Usuário</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {usuarios.map((usuario) => (
-                    <tr key={usuario.id}>
-                      <td>{usuario.id}</td>
-                      <td>{usuario.username}</td>
-                      <td>
-                        <select id={"selectFuncao" + usuario.id} onChange={(event) => setFuncao(event.target.value)} value={funcao}>
-                          <option value="">Selecione a função</option>
-                          <option value="app-user">Usuário</option>
-                          <option value="app-admin">Administrador</option>
-                        </select>
-                        <button type="button" onClick={(event) => adicionarFuncao(event, usuario.id)}>
-                          adicionar Função
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p>{mensagemTabela}</p>
-            </div>
-          }
+          <label>por Nome de Usuário</label>
+          <br />
+          <input type="text" id="inputNome" placeholder="Digite o nome de usuário"
+            value={username} onChange={(event) => setUsername(event.target.value)} />
         </div>
-        : 
-        <NaoAutorizado admin />
+        <br />
+        <div>
+          <label>por ID de Usuário</label>
+          <br />
+          <input type="text" id="inputId" placeholder="Digite o id do usuário"
+            value={id} onChange={(event) => setId(event.target.value)} />
+        </div>
+        <br />
+        <div>
+          <button type="submit">Pesquisar</button>
+          <p>{mensagem}</p>
+        </div>
+      </form>
+      { mostrarTabela &&
+        <div>
+          <br/>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome de Usuário</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((usuario) => (
+                <tr key={usuario.id}>
+                  <td>{usuario.id}</td>
+                  <td>{usuario.username}</td>
+                  <td>
+                    <select id={"selectFuncao" + usuario.id} onChange={(event) => setFuncao(event.target.value)} value={funcao}>
+                      <option value="">Selecione a função</option>
+                      <option value="app-user">Usuário</option>
+                      <option value="app-admin">Administrador</option>
+                    </select>
+                    <button type="button" onClick={(event) => adicionarFuncao(event, usuario.id)}>
+                      adicionar Função
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>{mensagemTabela}</p>
+        </div>
       }
-    </>
+    </div>
   );
 }
 
-export default withAuth(BuscarUsuario);
+export default withAuthAdmin(BuscarUsuario);

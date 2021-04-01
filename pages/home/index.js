@@ -5,9 +5,10 @@ import { useAuth } from '../../src/context/auth';
 import { getTesteUsuario,
   getTesteAdministrador,
   getTesteTodosUsuarios } from '../api/apiTestesService';
+import withAuth from '../../../src/utils/withAuth';
 
-const Home = () => {
-  const { user, roles, signed, Logout } = useAuth();
+const Home = ({props}) => {
+  const { user, Logout } = useAuth();
   const router = useRouter();
   const [respostas, setRespostas] = useState({
     respostaUsuario: '',
@@ -15,7 +16,7 @@ const Home = () => {
     respostaTodos: ''
   });
 
-  const isAdmin = roles.includes('administrador');
+  const { isAdmin } = props;
 
   function handleLogout(){
     Logout();
@@ -61,17 +62,6 @@ const Home = () => {
     });
   }
 
-  if (!signed) {
-    return (
-      <div>
-        <h1>Acesso negado</h1>
-        <Link href="/login">
-          <a href="#">ir para a tela de login</a>
-        </Link>
-      </div>
-    );
-  }
-
   return(
     <div>
       <h1>Home</h1>
@@ -112,4 +102,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default withAuth(Home);
