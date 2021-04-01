@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import authLoginService from '../../pages/api/authLoginService';
+import authLoginService from '../../api/services/authLoginService';
 import jwt_decode from 'jwt-decode';
-import httpApiClient from '../../pages/api/httpApiClient';
-import { clientId } from '../../pages/api/httpAuthClient';
+import httpApiClient from '../../api/services/httpApiClient';
+import { clientId } from '../../api/services/httpAuthClient';
 
 const AuthContext = React.createContext({});
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { postCriarUsuario } from '../../api/apiUsuarioService';
+import { postCriarUsuario } from '../../../api/services/apiUsuarioService';
 import withAuthAdmin from '../../../src/utils/withAuthAdmin';
 
 const CadastrarUsuario = () => {

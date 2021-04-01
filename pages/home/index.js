@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useAuth } from '../../src/context/auth';
 import { getTesteUsuario,
   getTesteAdministrador,
-  getTesteTodosUsuarios } from '../api/apiTestesService';
-import withAuth from '../../../src/utils/withAuth';
+  getTesteTodosUsuarios } from '../../api/services/apiTestesService';
+import withAuth from '../../src/utils/withAuth';
 
-const Home = ({props}) => {
-  const { user, Logout } = useAuth();
+const Home = (props) => {
+  const { user, roles, Logout } = useAuth();
   const router = useRouter();
   const [respostas, setRespostas] = useState({
     respostaUsuario: '',

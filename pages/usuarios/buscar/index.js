@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { getTodosUsuarios,
   getUsuarioPorId,
   getUsuariosPorUsername,
-  postAtribuirRole } from '../../api/apiUsuarioService';
+  postAtribuirRole } from '../../../api/services/apiUsuarioService';
 import withAuthAdmin from '../../../src/utils/withAuthAdmin';
  
 const BuscarUsuario = () => {
