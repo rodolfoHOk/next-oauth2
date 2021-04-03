@@ -1,8 +1,14 @@
+import { useSession } from 'next-auth/client';
 import { useState } from 'react';
-import { postCriarUsuario } from '../../../api/services/apiUsuarioService';
-import withAuthAdmin from '../../../src/utils/withAuthAdmin';
+import LinksAdmins from '../../../src/components/links/admins';
+import LinksLogados from '../../../src/components/links/logados';
+import Loading from '../../../src/components/loading';
+import Login from '../../../src/components/login';
+import { postCriarUsuario } from '../../../src/services/apiUsuarioService';
 
 const CadastrarUsuario = () => {
+
+  const [ session, loading ] = useSession();
   
   const [ usuario, setUsuario ] = useState({
     username: '',
@@ -27,6 +33,18 @@ const CadastrarUsuario = () => {
   }
 
   return(
+    loading && !session
+    ?
+    <Loading/>
+    :
+    !session
+    ?
+    <Login/>
+    :
+    !session.user.isAdmin
+    ?
+    <NaoAutorizado/>
+    :
     <div>
       <h1>Cadastrar Usuários</h1>
       <form onSubmit={(event) => cadastrar(event)}>
@@ -59,9 +77,16 @@ const CadastrarUsuario = () => {
         </div>
         <p>{mensagem}</p>
       </form>
+      <div>
+        <h2>Links Menu</h2>
+        <LinksLogados/>
+        { session.user.isAdmin &&
+          <LinksAdmins/>
+        }
+      </div>
     </div>
   );
 
 }
 
-export default withAuthAdmin(CadastrarUsuario);
+export default CadastrarUsuario;

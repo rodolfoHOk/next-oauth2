@@ -45,7 +45,7 @@ export default NextAuth({
       session.user.username = accessToken.preferred_username;
       session.user.roles = accessToken.resource_access[process.env.NEXT_PUBLIC_CLIENT_ID].roles;
       session.user.isAdmin = session.user.roles.includes('admin');
-      // session.accessToken = token.accessToken;
+      session.accessToken = token.accessToken;
       return session;
     }
   },

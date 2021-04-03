@@ -1,11 +1,17 @@
+import { useSession } from 'next-auth/client';
 import { useState } from 'react';
 import { getTodosUsuarios,
   getUsuarioPorId,
   getUsuariosPorUsername,
-  postAtribuirRole } from '../../../api/services/apiUsuarioService';
-import withAuthAdmin from '../../../src/utils/withAuthAdmin';
+  postAtribuirRole } from '../../../src/services/apiUsuarioService';
+import Loading from '../../../src/components/loading';
+import Login from '../../../src/components/login';
+import LinksLogados from '../../../src/components/links/logados';
+import LinksAdmins from '../../../src/components/links/admins';
  
 const BuscarUsuario = () => {
+
+  const [ session, loading ] = useSession();
   
   const [ username, setUsername ] = useState('');
   const [ id, setId ] = useState('');
@@ -75,6 +81,18 @@ const BuscarUsuario = () => {
   }
 
   return (
+    loading && !session
+    ?
+    <Loading/>
+    :
+    !session
+    ?
+    <Login/>
+    :
+    !session.user.isAdmin
+    ?
+    <NaoAutorizado/>
+    :
     <div>
       <h1>Pesquisar Usuários</h1>
       <form onSubmit={(event) => buscar(event)}>
@@ -130,8 +148,15 @@ const BuscarUsuario = () => {
           <p>{mensagemTabela}</p>
         </div>
       }
+      <div>
+        <h2>Links Menu</h2>
+        <LinksLogados/>
+        { session.user.isAdmin &&
+          <LinksAdmins/>
+        }
+      </div>
     </div>
   );
 }
 
-export default withAuthAdmin(BuscarUsuario);
+export default BuscarUsuario;
